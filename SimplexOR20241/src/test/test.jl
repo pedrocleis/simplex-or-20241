@@ -1,20 +1,20 @@
 include("../SimplexOR20241.jl")
 using Main.SimplexOR20241
 
-c_test_dual = [1; 2; 3]
-c_type_test_dual = 1 # 1 for MAX, -1 for MIN
-A_test_dual = [-1   3   0 ;
-                2  -1   3;
-                0   0   1]
-A_type_test_dual = [1; 1; 1] # 1 for <=, -1 for >=, 0 for =
-variable_types_test_dual = [-1, -1, -1] # 1 for <=, -1 for >=, 0 for free
-b_test_dual = [5; 6; 4]
+c = [1; 2; 3]
+c_type = 1 # 1 for MAX, -1 for MIN
+A = [  -1   3   0;
+        2  -1   3;
+        0   0   1]
+A_type = [1; 1; 1] # 1 for <=, -1 for >=, 0 for =
+b = [5; 6; 4]
+variable_type = [-1, -1, -1, -1] # 1 for <=, -1 for >=, 0 for =
 
-c_test_dual = Array{Float64}(c_test_dual)
-A_test_dual = Array{Float64}(A_test_dual)
-b_test_dual = Array{Float64}(b_test_dual)
+c = Array{BigFloat}(c)
+A = Array{BigFloat}(A)
+b = Array{BigFloat}(b)
 
-SimplexOR20241.simplex_method(c_test_dual, c_type_test_dual, A_test_dual, A_type_test_dual, b_test_dual)
+SimplexOR20241.simplex_method(c, c_type, A, A_type, b)
 
 # x1 = 5 | dual = 1
 # x2 = 3 | dual = 1
