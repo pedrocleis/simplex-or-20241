@@ -42,9 +42,9 @@ module SimplexOR20241
 
     function variable_sensitivity(s_estrela, b_estrela, b_indices)
         rows, columns = size(s_estrela)
-        sensitivity = Matrix{Float64}(undef, rows, 2)
-        sensitivity[:, 1] .= typemin(Float64)
-        sensitivity[:, 2] .= typemax(Float64)
+        sensitivity = Matrix{BigFloat}(undef, rows, 2)
+        sensitivity[:, 1] .= typemin(BigFloat)
+        sensitivity[:, 2] .= typemax(BigFloat)
         for i in eachindex(b_indices)
             s_estrela_i = s_estrela[i, :]
             for j in eachindex(s_estrela_i)
@@ -90,21 +90,13 @@ module SimplexOR20241
         end
     end
 
-    function variable_sensitivity(s_estrela, b_estrela)
-        rows, columns = size(s_estrela)
-        sensibility = Matrix(Float64, 1, columns)
-        for i in eachindex
-
-        end
-    end
-
     function dual_model(c, c_type, A, A_types, b, variable_types)
         dual_c_type = -c_type
         dual_b = c
         dual_c = b
     
         rows, columns = size(A)
-        dual_A = zeros(Float64, columns, rows)
+        dual_A = zeros(BigFloat, columns, rows)
     
         for i in 1:columns
             dual_A[i, :] = A[:, i]
@@ -117,9 +109,9 @@ module SimplexOR20241
     end
 
     function initialize(c, c_type, A, A_types, b)
-        c::Array{Float64}
-        A::Array{Float64}
-        b::Array{Float64}
+        c::Array{BigFloat}
+        A::Array{BigFloat}
+        b::Array{BigFloat}
 
         if c_type == -1
             c = -c
@@ -142,7 +134,7 @@ module SimplexOR20241
             end
         end
 
-        A_aux = zeros(Float64, rows, number_aux)
+        A_aux = zeros(BigFloat, rows, number_aux)
 
         aux_matrix = 0
 
@@ -162,7 +154,7 @@ module SimplexOR20241
 
         rows, columns = size(A)
         A = hcat(A, A_aux)
-        c = vcat(c, zeros(Float64, number_aux))
+        c = vcat(c, zeros(BigFloat, number_aux))
 
         for i in eachindex(dummies)
             c[size_c[1] + dummies[i]] = -99999
