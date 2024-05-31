@@ -9,6 +9,7 @@ module SimplexOR20241
         dual_variables = dual_variables_function(c, B, b_indices)'
 
         pricing = pricing_function(c, dual_variables, A, b_indices)
+        println("enter simplex_method")
         
         while any(pricing .> 1e-6)
             indices = findall(x -> x > 0, pricing)
@@ -109,6 +110,7 @@ module SimplexOR20241
     end
 
     function initialize(c, c_type, A, A_types, b)
+        println("enter initialize")
         c::Array{BigFloat}
         A::Array{BigFloat}
         b::Array{BigFloat}
@@ -162,6 +164,8 @@ module SimplexOR20241
 
         b_indices, x_values_B, B = initial_basis(A, b)
 
+        println("exit initialize")
+
         return b_indices, x_values_B, B, A, c, dummies
     end
 
@@ -190,14 +194,16 @@ module SimplexOR20241
     end
 
     function initial_basis(A, b)
+        println("entering initial_basis")
         rows, columns = size(A)
 
-        comb = collect(combinations(1:columns, rows))
+        comb = combinations(1:columns, rows)
         for index in comb
             B = A[:, index]
             try
                 x_values_B = inv(B) * b
                 if all(x_values_B .>= 1e-6)
+                    println("exiting initial_basis")
                     return index, x_values_B, B
                 end
             catch e
